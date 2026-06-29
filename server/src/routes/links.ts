@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
+import { createLinkHandler } from '../handlers/create-link'
 
 export async function linksRoutes(app: FastifyInstance) {
-  // handlers will be registered in subsequent tasks
+  app.post('/links', createLinkHandler)
 }
