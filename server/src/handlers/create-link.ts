@@ -1,6 +1,5 @@
 import type { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { eq } from 'drizzle-orm'
 import { db } from '../db'
 import { links } from '../db/schema'
 
@@ -20,20 +19,17 @@ export async function createLinkHandler(request: FastifyRequest, reply: FastifyR
 
   const { originalUrl, slug } = result.data
 
-  const existing = await db
-    .select({ id: links.id })
-    .from(links)
-    .where(eq(links.slug, slug))
-    .limit(1)
+  try {
+    const [link] = await db
+      .insert(links)
+      .values({ originalUrl, slug })
+      .returning()
 
-  if (existing.length > 0) {
-    return reply.status(409).send({ error: 'Slug already exists' })
+    return reply.status(201).send(link)
+  } catch (err: unknown) {
+    if (typeof err === 'object' && err !== null && 'code' in err && (err as { code: string }).code === '23505') {
+      return reply.status(409).send({ error: 'Slug already exists' })
+    }
+    throw err
   }
-
-  const [link] = await db
-    .insert(links)
-    .values({ originalUrl, slug })
-    .returning()
-
-  return reply.status(201).send(link)
 }
