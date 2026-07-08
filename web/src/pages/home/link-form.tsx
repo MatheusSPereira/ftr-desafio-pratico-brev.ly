@@ -4,6 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createLinkSchema, type CreateLinkInput } from '../../lib/schemas'
 import { useCreateLink } from '../../hooks/use-links'
 import { ApiError } from '../../api/client'
+import { Input } from '../../components/input'
+import { Button } from '../../components/button'
 
 export function LinkForm() {
   const {
@@ -41,24 +43,24 @@ export function LinkForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <label htmlFor="originalUrl">Link original</label>
-        <input id="originalUrl" type="text" className="border p-2" {...register('originalUrl')} />
-        {errors.originalUrl && <span className="text-sm text-red-600">{errors.originalUrl.message}</span>}
-      </div>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="slug">Link encurtado</label>
-        <input id="slug" type="text" className="border p-2" {...register('slug')} />
-        {errors.slug && <span className="text-sm text-red-600">{errors.slug.message}</span>}
-      </div>
-      <button
-        type="submit"
-        disabled={createLink.isPending}
-        className="border p-2 disabled:opacity-50"
-      >
+      <Input
+        label="Link original"
+        type="text"
+        error={errors.originalUrl?.message}
+        {...register('originalUrl')}
+      />
+      <Input
+        label="Link encurtado"
+        type="text"
+        error={errors.slug?.message}
+        {...register('slug')}
+      />
+      <Button type="submit" disabled={createLink.isPending}>
         {createLink.isPending ? 'Salvando...' : 'Salvar link'}
-      </button>
-      {submitError && <p className="text-sm text-red-600">{submitError}</p>}
+      </Button>
+      {submitError && (
+        <p className="flex items-center gap-1 text-sm text-danger">{submitError}</p>
+      )}
     </form>
   )
 }

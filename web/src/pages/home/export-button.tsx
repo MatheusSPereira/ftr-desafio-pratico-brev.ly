@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useExportLinks } from '../../hooks/use-links'
+import { Button } from '../../components/button'
 
 export function ExportButton() {
   const exportLinks = useExportLinks()
@@ -23,10 +24,10 @@ export function ExportButton() {
 
   return (
     <div className="flex flex-col gap-1">
-      <button type="button" onClick={handleExport} disabled={exportLinks.isPending} className="border p-2 disabled:opacity-50">
+      <Button variant="secondary" onClick={handleExport} disabled={exportLinks.isPending}>
         {exportLinks.isPending ? 'Exportando...' : 'Exportar CSV'}
-      </button>
-      {exportError && <p className="text-sm text-red-600">{exportError}</p>}
+      </Button>
+      {exportError && <p className="text-sm text-danger">{exportError}</p>}
     </div>
   )
 }
