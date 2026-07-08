@@ -25,5 +25,16 @@ services:
       db:
         condition: service_healthy
 
+  web:
+    build:
+      context: ../web
+      args:
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL:-http://localhost:3333}
+        VITE_FRONTEND_URL: ${VITE_FRONTEND_URL:-http://localhost:5173}
+    ports:
+      - "${WEB_PORT:-5173}:80"
+    depends_on:
+      - server
+
 volumes:
   postgres_data:
