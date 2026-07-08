@@ -28,6 +28,15 @@ export default {
         },
         danger: '#B12C4D',
       },
+      keyframes: {
+        'loading-bar': {
+          '0%': { left: '-33%' },
+          '100%': { left: '100%' },
+        },
+      },
+      animation: {
+        'loading-bar': 'loading-bar 1s ease-in-out infinite',
+      },
     },
   },
   plugins: [],

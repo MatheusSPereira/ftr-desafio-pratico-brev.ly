@@ -1,7 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useIsMutating, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createLink, deleteLink, exportLinks, incrementAccess, listLinks } from '../api/links'
 
 const LINKS_QUERY_KEY = ['links']
+const CREATE_LINK_MUTATION_KEY = ['create-link']
 
 export function useLinksQuery() {
   return useQuery({ queryKey: LINKS_QUERY_KEY, queryFn: listLinks })
@@ -10,11 +11,16 @@ export function useLinksQuery() {
 export function useCreateLink() {
   const queryClient = useQueryClient()
   return useMutation({
+    mutationKey: CREATE_LINK_MUTATION_KEY,
     mutationFn: createLink,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: LINKS_QUERY_KEY })
     },
   })
+}
+
+export function useIsCreatingLink() {
+  return useIsMutating({ mutationKey: CREATE_LINK_MUTATION_KEY }) > 0
 }
 
 export function useDeleteLink() {
