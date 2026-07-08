@@ -27,8 +27,17 @@ export function useDeleteLink() {
   })
 }
 
-export function useIncrementAccess() {
-  return useMutation({ mutationFn: incrementAccess })
+export function useIncrementAccess(slug: string | undefined) {
+  return useQuery({
+    queryKey: ['increment-access', slug],
+    queryFn: () => incrementAccess(slug as string),
+    enabled: Boolean(slug),
+    retry: false,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  })
 }
 
 export function useExportLinks() {

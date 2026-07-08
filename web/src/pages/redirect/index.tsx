@@ -7,13 +7,7 @@ import logoIconUrl from '../../assets/Logo_Icon.svg'
 
 export function RedirectPage() {
   const { slug } = useParams<{ slug: string }>()
-  const { mutate, isSuccess, data, isError, error } = useIncrementAccess()
-
-  useEffect(() => {
-    if (slug) {
-      mutate(slug)
-    }
-  }, [slug, mutate])
+  const { isSuccess, data, isError, error } = useIncrementAccess(slug)
 
   useEffect(() => {
     if (isSuccess && data) {
