@@ -4,10 +4,12 @@ import { IconButton } from '../../components/icon-button'
 import { CopyIcon } from '../../components/icons/copy-icon'
 import { TrashIcon } from '../../components/icons/trash-icon'
 import { LinkIcon } from '../../components/icons/link-icon'
+import { useToast } from '../../components/toast-provider'
 
 export function LinkList() {
   const { data, isLoading, isError } = useLinksQuery()
   const deleteLink = useDeleteLink()
+  const { showToast } = useToast()
 
   if (isLoading) {
     return <p className="py-6 text-center text-sm text-gray-500">Carregando links...</p>
@@ -48,7 +50,17 @@ export function LinkList() {
             <IconButton
               icon={<CopyIcon className="h-4 w-4" />}
               aria-label="Copiar link encurtado"
-              onClick={() => navigator.clipboard.writeText(buildShortUrl(link.slug)).catch(() => {})}
+              onClick={() =>
+                navigator.clipboard
+                  .writeText(buildShortUrl(link.slug))
+                  .then(() =>
+                    showToast({
+                      title: 'Link copiado com sucesso',
+                      description: `O link ${buildShortUrl(link.slug)} foi copiado para a sua área de transferência`,
+                    })
+                  )
+                  .catch(() => {})
+              }
             />
             <IconButton
               icon={<TrashIcon className="h-4 w-4" />}

@@ -33,9 +33,14 @@ export default {
           '0%': { left: '-33%' },
           '100%': { left: '100%' },
         },
+        'toast-in': {
+          '0%': { opacity: '0', transform: 'translateY(0.5rem)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         'loading-bar': 'loading-bar 1s ease-in-out infinite',
+        'toast-in': 'toast-in 0.2s ease-out',
       },
     },
   },
