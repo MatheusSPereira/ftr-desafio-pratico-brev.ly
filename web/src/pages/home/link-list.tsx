@@ -31,7 +31,7 @@ export function LinkList() {
           <div className="flex gap-2">
             <button
               type="button"
-              onClick={() => navigator.clipboard.writeText(buildShortUrl(link.slug))}
+              onClick={() => navigator.clipboard.writeText(buildShortUrl(link.slug)).catch(() => {})}
               className="border p-2 text-sm"
             >
               Copiar

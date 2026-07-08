@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createLinkSchema, type CreateLinkInput } from '../../lib/schemas'
@@ -15,10 +16,15 @@ export function LinkForm() {
     resolver: zodResolver(createLinkSchema),
   })
   const createLink = useCreateLink()
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   function onSubmit(input: CreateLinkInput) {
+    setSubmitError(null)
     createLink.mutate(input, {
-      onSuccess: () => reset(),
+      onSuccess: () => {
+        setSubmitError(null)
+        reset()
+      },
       onError: error => {
         if (error instanceof ApiError && error.status === 409) {
           setError('slug', { message: 'Essa URL encurtada já existe' })
@@ -26,7 +32,9 @@ export function LinkForm() {
         }
         if (error instanceof ApiError && error.status === 400) {
           setError('slug', { message: 'URL encurtada mal formatada' })
+          return
         }
+        setSubmitError('Não foi possível salvar o link. Tente novamente.')
       },
     })
   }
@@ -50,6 +58,7 @@ export function LinkForm() {
       >
         {createLink.isPending ? 'Salvando...' : 'Salvar link'}
       </button>
+      {submitError && <p className="text-sm text-red-600">{submitError}</p>}
     </form>
   )
 }
