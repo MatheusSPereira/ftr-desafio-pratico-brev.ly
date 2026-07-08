@@ -18,7 +18,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     <div className="flex flex-col gap-1">
       <label
         htmlFor={inputId}
-        className={`text-xs font-bold uppercase tracking-wide ${error ? 'text-danger' : 'text-gray-500'}`}
+        className={`text-[10px] uppercase tracking-wide ${error ? 'text-danger' : 'text-gray-500'}`}
       >
         {label}
       </label>
@@ -26,7 +26,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         id={inputId}
         ref={ref}
         {...props}
-        className={`rounded-lg border bg-white px-4 py-3 text-base text-gray-600 placeholder:text-gray-400 focus:outline-none ${
+        className={`h-12 rounded-lg border bg-white px-4 text-sm text-gray-600 placeholder:text-gray-400 focus:outline-none ${
           error ? 'border-danger focus:border-danger' : 'border-gray-300 focus:border-blue-base'
         } ${className}`}
       />

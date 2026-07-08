@@ -1,10 +1,13 @@
 import { useState } from 'react'
-import { useExportLinks } from '../../hooks/use-links'
+import { useExportLinks, useLinksQuery } from '../../hooks/use-links'
 import { Button } from '../../components/button'
+import { DownloadIcon } from '../../components/icons/download-icon'
 
 export function ExportButton() {
   const exportLinks = useExportLinks()
+  const { data } = useLinksQuery()
   const [exportError, setExportError] = useState<string | null>(null)
+  const isEmpty = !data || data.length === 0
 
   function handleExport() {
     setExportError(null)
@@ -24,8 +27,13 @@ export function ExportButton() {
 
   return (
     <div className="flex flex-col gap-1">
-      <Button variant="secondary" onClick={handleExport} disabled={exportLinks.isPending}>
-        {exportLinks.isPending ? 'Exportando...' : 'Exportar CSV'}
+      <Button
+        variant="secondary"
+        icon={<DownloadIcon className="h-4 w-4" />}
+        onClick={handleExport}
+        disabled={exportLinks.isPending || isEmpty}
+      >
+        {exportLinks.isPending ? 'Exportando...' : 'Baixar CSV'}
       </Button>
       {exportError && <p className="text-sm text-danger">{exportError}</p>}
     </div>

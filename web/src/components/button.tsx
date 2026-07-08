@@ -8,12 +8,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const baseClasses =
-  'inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50'
+  'inline-flex items-center justify-center font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50'
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-blue-base px-6 py-3 text-base text-white hover:bg-blue-dark',
+  primary: 'h-12 gap-2 rounded-lg bg-blue-base px-5 text-sm text-white hover:bg-blue-dark',
   secondary:
-    'border border-transparent bg-gray-200 px-4 py-2 text-sm text-gray-500 hover:border-blue-base',
+    'h-8 gap-1.5 rounded border border-transparent bg-gray-200 px-2 text-xs text-gray-500 hover:border-blue-base',
 }
 
 export function Button({
