@@ -5,10 +5,11 @@ import { WarningIcon } from './icons/warning-icon'
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string
   error?: string
+  prefix?: string
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, error, id, className = '', ...props },
+  { label, error, id, className = '', prefix, ...props },
   ref
 ) {
   const generatedId = useId()
@@ -22,14 +23,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       >
         {label}
       </label>
-      <input
-        id={inputId}
-        ref={ref}
-        {...props}
-        className={`h-12 rounded-lg border bg-white px-4 text-sm text-gray-600 placeholder:text-gray-400 focus:outline-none ${
-          error ? 'border-danger focus:border-danger' : 'border-gray-300 focus:border-blue-base'
+      <div
+        className={`flex h-12 items-center gap-1 rounded-lg border bg-white px-4 ${
+          error ? 'border-danger focus-within:border-danger' : 'border-gray-300 focus-within:border-blue-base'
         } ${className}`}
-      />
+      >
+        {prefix && <span className="shrink-0 text-sm text-gray-400">{prefix}</span>}
+        <input
+          id={inputId}
+          ref={ref}
+          {...props}
+          className="w-full min-w-0 border-0 bg-transparent p-0 text-sm text-gray-600 placeholder:text-gray-400 focus:outline-none focus:ring-0"
+        />
+      </div>
       {error && (
         <p className="flex items-center gap-1 text-sm text-gray-500">
           <WarningIcon className="h-4 w-4 shrink-0 text-danger" />

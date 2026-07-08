@@ -4,7 +4,7 @@ export const createLinkSchema = z.object({
   originalUrl: z.string().url('Informe uma URL válida'),
   slug: z
     .string()
-    .regex(/^[a-zA-Z0-9-]{3,50}$/, 'Use apenas letras, números e hífens (3 a 50 caracteres)'),
+    .regex(/^[a-z0-9-]{3,50}$/, 'Informe uma url minúscula e sem espaço/caracter especial'),
 })
 
 export type CreateLinkInput = z.infer<typeof createLinkSchema>

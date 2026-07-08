@@ -33,7 +33,7 @@ export function LinkForm() {
           return
         }
         if (error instanceof ApiError && error.status === 400) {
-          setError('slug', { message: 'URL encurtada mal formatada' })
+          setError('slug', { message: 'Informe uma url minúscula e sem espaço/caracter especial' })
           return
         }
         setSubmitError('Não foi possível salvar o link. Tente novamente.')
@@ -52,6 +52,7 @@ export function LinkForm() {
       <Input
         label="Link encurtado"
         type="text"
+        prefix="brev.ly/"
         error={errors.slug?.message}
         {...register('slug')}
       />
