@@ -5,5 +5,5 @@ export const links = pgTable('links', {
   originalUrl: text('original_url').notNull(),
   slug: varchar('slug', { length: 50 }).notNull().unique(),
   accessCount: integer('access_count').notNull().default(0),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 })
